@@ -22,7 +22,7 @@ export const useAuthStore = create((set, get)=>({
             get().connectSocket()
         } catch (error) {
             set({authUser : null})
-            console.log("Error in check auth",error.message)
+            toast.error(error.response.data.message)
         } finally {
             set({isCheckingAuth : false})
         }
@@ -32,7 +32,6 @@ export const useAuthStore = create((set, get)=>({
         set({isSiginingUp : true})
         try {
             const res = await axiosInstance.post("auth/signup", data)
-            console.log(res)
             set({authUser : res.data.message})
             toast.success("Acount Created Successfully")
             get().connectSocket()
@@ -58,7 +57,6 @@ export const useAuthStore = create((set, get)=>({
         set({isLoggingIn : true})
         try {
             const res = await axiosInstance.post("auth/login", data)
-            console.log(res)
             set({authUser : res.data.message})
             toast.success("Login Successfully Done")
             get().connectSocket()
@@ -73,7 +71,6 @@ export const useAuthStore = create((set, get)=>({
         set({isUpdatingProfile : true})
         try {
             const res = await axiosInstance.put("auth/update-profile", data)
-            console.log(res.data)
             set({authUser : res.data.message})
             toast.success("Profile Image Updated Successfully")
         } catch (error) {

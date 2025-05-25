@@ -26,9 +26,7 @@ export const useChatStore = create((set, get) => ({
     getMessages : async (userId) => {
         set({isMessagesLoading : true});
         try {
-            console.log(userId)
             const res = await axiosInstance.get(`/messages/${userId}`);
-            console.log(res.data.message)
             set({messages : res.data.message})
         } catch (error) {
             toast.error(error.response.data.message)
@@ -55,7 +53,6 @@ export const useChatStore = create((set, get) => ({
 
         socket.on("newMessage", (newMessage) => {
             if(newMessage.senderId !== selectedUser._id) return;
-            console.log(newMessage)
             set({messages : [...get().messages, newMessage]})
         })
     },
